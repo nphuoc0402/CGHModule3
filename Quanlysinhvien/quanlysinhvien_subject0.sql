@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `quanlysinhvien` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `quanlysinhvien`;
 -- MySQL dump 10.13  Distrib 8.0.25, for Win64 (x86_64)
 --
 -- Host: localhost    Database: quanlysinhvien
@@ -16,34 +18,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `mark`
+-- Table structure for table `subject`
 --
 
-DROP TABLE IF EXISTS `mark`;
+DROP TABLE IF EXISTS `subject`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `mark` (
-  `MarkID` int NOT NULL AUTO_INCREMENT,
-  `SubID` int NOT NULL,
-  `StudentID` int NOT NULL,
-  `Mark` float DEFAULT '0',
-  `ExamTimes` tinyint DEFAULT '1',
-  PRIMARY KEY (`MarkID`),
-  UNIQUE KEY `SubID` (`SubID`,`StudentID`),
-  KEY `StudentID` (`StudentID`),
-  CONSTRAINT `mark_ibfk_1` FOREIGN KEY (`SubID`) REFERENCES `subject` (`SubID`),
-  CONSTRAINT `mark_ibfk_2` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`),
-  CONSTRAINT `mark_chk_1` CHECK ((`Mark` between 0 and 100))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `subject` (
+  `SubId` int NOT NULL AUTO_INCREMENT,
+  `SubName` varchar(30) NOT NULL,
+  `Credit` tinyint NOT NULL DEFAULT '1',
+  `Status` bit(1) DEFAULT b'1',
+  PRIMARY KEY (`SubId`),
+  CONSTRAINT `subject_chk_1` CHECK ((`Credit` >= 1))
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `mark`
+-- Dumping data for table `subject`
 --
 
-LOCK TABLES `mark` WRITE;
-/*!40000 ALTER TABLE `mark` DISABLE KEYS */;
-/*!40000 ALTER TABLE `mark` ENABLE KEYS */;
+LOCK TABLES `subject` WRITE;
+/*!40000 ALTER TABLE `subject` DISABLE KEYS */;
+INSERT INTO `subject` VALUES (1,'CF',5,_binary ''),(2,'C',6,_binary ''),(3,'HDJ',5,_binary ''),(4,'RDBMS',10,_binary '');
+/*!40000 ALTER TABLE `subject` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -55,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-13 22:12:53
+-- Dump completed on 2021-07-14 15:26:15

@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `quanlysinhvien` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `quanlysinhvien`;
 -- MySQL dump 10.13  Distrib 8.0.25, for Win64 (x86_64)
 --
 -- Host: localhost    Database: quanlysinhvien
@@ -23,14 +25,16 @@ DROP TABLE IF EXISTS `student`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `student` (
-  `StudentID` int NOT NULL AUTO_INCREMENT,
+  `StudentId` int NOT NULL AUTO_INCREMENT,
   `StudentName` varchar(30) NOT NULL,
   `Address` varchar(50) DEFAULT NULL,
   `Phone` varchar(20) DEFAULT NULL,
   `Status` bit(1) DEFAULT NULL,
-  `ClassID` int NOT NULL,
-  PRIMARY KEY (`StudentID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `ClassId` int NOT NULL,
+  PRIMARY KEY (`StudentId`),
+  KEY `ClassId` (`ClassId`),
+  CONSTRAINT `student_ibfk_1` FOREIGN KEY (`ClassId`) REFERENCES `class` (`ClassID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +43,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
+INSERT INTO `student` VALUES (1,'Hung','Ha Noi','0912113113',_binary '',1),(2,'Hoa','Hai phong',NULL,_binary '',1),(3,'Manh','HCM','0123123123',_binary '\0',2);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-13 22:12:54
+-- Dump completed on 2021-07-14 15:26:15

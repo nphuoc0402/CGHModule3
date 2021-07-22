@@ -12,7 +12,7 @@
   </head>
   <body>
     <h2>Currency Converter</h2>
-    <form action="/convert" method="post">
+    <form action="converter.jsp" method="post">
       <label >Rate</label><br>
       <input type="text" name="rate" value="20000" ><br>
       <label >USD</label><br>

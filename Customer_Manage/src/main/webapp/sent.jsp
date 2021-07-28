@@ -27,14 +27,14 @@
                     Edit Customer
                 </h2>
             </caption>
-            <c:if test="${customers != null}">
-                <input type="input" name="id" value="<c:out value='${param.id}'/>"
+            <c:if test="${customer != null}">
+                <input type="hidden" name="id" value="<c:out value='${customer.id}'/>"
             </c:if>
             <tr>
                 <th>Customer Sent:</th>
                 <td>
-                    <input disabled type="text" name="salarysent" size="45"
-                           value="<c:out value='${customers.salary}'/>"/>
+                    <input  type="text" name="salarysent" size="45"
+                           value="<c:out value='${customer.salary}'/>"/>
                 </td>
             </tr>
             <tr>
@@ -53,11 +53,16 @@
             </tr>
             <tr>
                 <td colspan="2" align="center">
-                    <input type="submit" value="Save"/>
+                    <input type="submit" value="Send"/>
                 </td>
             </tr>
         </table>
     </form>
 </div>
+<%--//validate Backend--%>
+<%--// checkTool--%>
+<%--if (check){}else(execute)--%>
+<%--//page 404--%>
+
 </body>
 </html>

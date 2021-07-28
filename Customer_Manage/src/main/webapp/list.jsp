@@ -23,6 +23,9 @@
 <div align="center">
     <table border="1" cellpadding="5">
         <caption><h2>List of Users</h2></caption>
+<%--        <c:if test='${requestScope["message"] != null}'>--%>
+<%--            <span class="message">${requestScope["message"]}</span>--%>
+<%--        </c:if>--%>
         <tr>
             <th>ID</th>
             <th>Name</th>
@@ -38,6 +41,7 @@
                 <td><fmt:formatNumber value="${user.getSalary()}" type="currency" currencySymbol="$" ></fmt:formatNumber></td>
                 <td>
                     <a href="/customersManage?action=edit&id=${user.id}">Edit</a>
+                    <a href="/customersManage?action=sent&id=${user.id}">Send</a>
                     <a href="/customersManage?action=delete&id=${user.id}">Delete</a>
                 </td>
             </tr>

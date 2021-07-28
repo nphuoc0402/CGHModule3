@@ -16,6 +16,11 @@ public class Customer {
         this.salary = salary;
     }
 
+    public Customer(int id, int salary) {
+        this.id = id;
+        this.salary = salary;
+    }
+
     public Customer(int id, String name, String email, int salary) {
         this.id = id;
         this.name = name;

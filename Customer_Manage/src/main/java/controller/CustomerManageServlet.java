@@ -34,10 +34,13 @@ public class CustomerManageServlet extends HttpServlet {
                 case "create":
                     insertCustomer(request, response);
                     break;
-                case "sent":
-                    sentSalary(request,response);
                 case "edit":
                     updateCustomer(request, response);
+                    break;
+                case "sent":
+                    sentSalary(request,response);
+                    break;
+                default:
                     break;
 
             }
@@ -76,7 +79,7 @@ public class CustomerManageServlet extends HttpServlet {
 
     public void listCustomer(HttpServletRequest request, HttpServletResponse response)throws SQLException, IOException, ServletException{
         List<Customer> customers = customerDAO.selectAllCustomer();
-        System.out.println(customers);
+        System.out.println("customers: " + customers);
         request.setAttribute("customers",customers);
         RequestDispatcher dis = request.getRequestDispatcher("list.jsp");
         dis.forward(request,response);
@@ -98,8 +101,8 @@ public class CustomerManageServlet extends HttpServlet {
     public void showSentSalry(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         int id = Integer.parseInt(request.getParameter("id"));
         Customer existingCustomer = customerDAO.selectCustomerById(id);
+        request.setAttribute("customer",existingCustomer);
         RequestDispatcher dis = request.getRequestDispatcher("sent.jsp");
-        request.setAttribute("customers",existingCustomer);
         dis.forward(request,response);
     }
 
@@ -108,6 +111,7 @@ public class CustomerManageServlet extends HttpServlet {
         String email = request.getParameter("email");
         int salary = Integer.parseInt(request.getParameter("salary"));
         Customer newCustomer = new Customer(name,email,salary);
+        request.setAttribute("message", "Customer information was updated");
         customerDAO.insertCustomer(newCustomer);
 //        listCustomer(request,response);
         response.sendRedirect("/customersManage");
@@ -124,18 +128,24 @@ public class CustomerManageServlet extends HttpServlet {
         editCustomer.setName(name);
         editCustomer.setEmail(email);
         editCustomer.setSalary(salary);
-        customerDAO.isUpdateCustomer(editCustomer);
+        request.setAttribute("message","New customer was edit");
+//        customerDAO.isUpdateCustomer(editCustomer);
         response.sendRedirect("/customersManage");
     }
 
     public void sentSalary(HttpServletRequest request, HttpServletResponse response) throws  SQLException, IOException, ServletException{
-        int id = Integer.parseInt(request.getParameter("id"));
-        int salary = Integer.parseInt(request.getParameter("salarysent"));
-        int salaryreceive = Integer.parseInt(request.getParameter("salary"));
-        Customer customer = customerDAO.selectCustomerById(id);
-        customer.setSalary(salaryreceive);
-        customerDAO.isUpdateCustomer(customer);
-        response.sendRedirect("/customersManage");
+      int id = Integer.parseInt(request.getParameter("id"));
+      int salary = Integer.parseInt(request.getParameter("salarysent"));
+      int id2 = Integer.parseInt(request.getParameter("id2"));
+      int salaryreceive = Integer.parseInt(request.getParameter("salary"));
+        Customer Customersent = customerDAO.selectCustomerById(id);
+        Customer Customerreceive = customerDAO.selectCustomerById(id2);
+        Customersent.setSalary(salary - salaryreceive);
+
+        Customerreceive.setSalary(Customerreceive.getSalary() + salaryreceive);
+        customerDAO.isUpdateCustomer(Customersent,Customerreceive);
+       response.sendRedirect("/customersManage");
+
     }
 
     public void deleteCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException{

@@ -12,11 +12,13 @@ import java.util.List;
 public class CustomerDAO implements ICusstomerDAO{
 
     private final String INSERT_CUSTOMER_SQL = "INSERT INTO customer" + "(name,email,salary) VALUES" + "(?,?,?)";
-    private final String SELECT_CUSTOMER_BY_ID = "SELECT id,name,email,salary FROM customer WHERE id=?";
+    private final String SELECT_CUSTOMER_BY_ID = "SELECT id,name,email,salary FROM customer WHERE id=?;";
+    private final String SELECT_CUSTOMER_ID_SALARY = "SELECT id,salay FROM customer WHERE id = ?;";
     private final String SELECT_ALL_CUSTOMER  = "SELECT id,name,email,salary FROM customer";
     private final String DELETE_CUSTOMER_SQL = "DELETE FROM customer WHERE id = ?;";
     private final String UPDATE_CUSTOMER_SQL = "UPDATE customer SET name = ?, email = ?, salary = ? WHERE id = ?;";
 
+    private final String UPDATE_CUSTOMER_SALARY = "UPDATE customer SET salary = ? WHERE id = ?;";
     public CustomerDAO(){
 
     }
@@ -50,13 +52,32 @@ public class CustomerDAO implements ICusstomerDAO{
             String name = rs.getString("name");
             String email= rs.getString("email");
             int salary = rs.getInt("salary");
-            customer = new Customer(name,email,salary);
+            customer = new Customer(id, name,email,salary);
         }
         }catch(SQLException e){
             printSQLException(e);
         }
         return customer;
     }
+
+    @Override
+    public Customer selectSalaryById(int id) {
+        Customer customer = null;
+        try(
+                PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CUSTOMER_ID_SALARY);){
+            preparedStatement.setInt(1,id);
+            ResultSet rs = preparedStatement.executeQuery() ;
+
+            while (rs.next()){
+                int salary = rs.getInt("salary");
+                customer = new Customer(id,salary);
+            }
+        }catch(SQLException e){
+            printSQLException(e);
+        }
+        return customer;
+    }
+
 
     @Override
     public List<Customer> selectAllCustomer() {
@@ -79,30 +100,57 @@ public class CustomerDAO implements ICusstomerDAO{
 
     @Override
     public boolean isDeleteCustomer(int id) throws SQLException {
-        boolean rowDeleted = false;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CUSTOMER_SQL);
+        boolean rowDeleted ;
+        try (
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CUSTOMER_SQL);){
             preparedStatement.setInt(1,id);
             rowDeleted = preparedStatement.executeUpdate()  > 0;
-        }catch (SQLException e){
-            printSQLException(e);
         }
         return rowDeleted;
     }
 
-
     @Override
-    public boolean isUpdateCustomer(Customer customer) throws SQLException {
-        boolean rowUpdate;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CUSTOMER_SQL);) {
+    public boolean isUpdateCustomer(Customer customer, Customer customer2) throws SQLException {
+
+        boolean rowUpdate = false;
+        try  {
+            connection.setAutoCommit(false);
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CUSTOMER_SQL);
+            PreparedStatement preparedStatement2 = connection.prepareStatement(UPDATE_CUSTOMER_SQL);
+
             preparedStatement.setString(1, customer.getName());
             preparedStatement.setString(2, customer.getEmail());
             preparedStatement.setInt(3, customer.getSalary());
             preparedStatement.setInt(4, customer.getId());
 
-            rowUpdate = preparedStatement.executeUpdate() > 0;
+            preparedStatement.executeUpdate();
+
+            preparedStatement2.setString(1, customer2.getName());
+            preparedStatement2.setString(2, customer2.getEmail());
+            preparedStatement2.setInt(3, customer2.getSalary());
+            preparedStatement2.setInt(4, customer2.getId());
+
+            preparedStatement2.executeUpdate();
+            connection.commit();
+            connection.setAutoCommit(true);
+//            rowUpdate = preparedStatement.executeUpdate() > 0;
+            rowUpdate = true;
+        }catch (SQLException e){
+            connection.rollback();
+            printSQLException(e);
         }
         return  rowUpdate;
+    }
+
+    @Override
+    public boolean UpdateSalary(Customer customer) throws SQLException {
+        boolean Update;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CUSTOMER_SALARY);) {
+            preparedStatement.setInt(1, customer.getSalary());
+            preparedStatement.setInt(2, customer.getId());
+            Update = preparedStatement.executeUpdate() > 0;
+        }
+        return  Update;
     }
 
     private void printSQLException(SQLException ex) {

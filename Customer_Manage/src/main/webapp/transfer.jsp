@@ -37,7 +37,7 @@
         <a href="/customersManage">List All Users</a>
     </h2>
 </center>
-<div align="center">
+<div align="center" class="container">
     <form class="needs-validation" novalidate method="post">
         <h2>Transfer Transaction</h2>
         <div>
@@ -61,18 +61,24 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="col-md-6 mb-3">
-                <label >Customer Balance</label>
-                <input disabled type="text" name="salarysent" size="45" value="<c:out value='${customer.salary}'/>" >
+            <div class="col-md-4 mb-3">
+                <label >Balance</label>
+                <input disabled type="text" name="salarysent" class="form-control" value="<c:out value='${customer.salary}'/>" >
 
             </div>
-            <div class="col-md-3 mb-3">
+            <div class="col-md-4 mb-3">
                 <label >ID Receiver</label>
-                <input type="text" name="id2" class="form-control" required  size="45" >
+                <input type="text" name="id2" class="form-control" required >
+                <div class="invalid-feedback">
+                    Id Customer is required
+                </div>
             </div>
-            <div class="col-md-3 mb-3">
+            <div class="col-md-4 mb-3">
                 <label>Amount</label>
                 <input type="text" name="salary" size="15" class="form-control" required/>
+                <div class="invalid-feedback">
+                    Amount is required
+                </div>
             </div>
         </div>
 
@@ -100,10 +106,6 @@
         })();
     </script>
 </div>
-<%--//validate Backend--%>
-<%--// checkTool--%>
-<%--if (check){}else(execute)--%>
-<%--//page 404--%>
 
 </body>
 </html>

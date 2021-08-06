@@ -3,43 +3,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Create</title>
+    <%@include file="head.jsp"%>
     <style>
-        .message{
-            color:white;
-        }
-        .error{
-            color: red;
-            font-family: Arial;
-            font-weight: bold;
-        }
-        .success{
-            color: lightgreen;
-            font-weight: bold;
-            font-family: Arial;
-        }
-        label,input {
-            padding: 10px;
-        }
-        a{
-            text-decoration: none;
-        }
-        h1{
-           text-align: center;
-        }
+        <%@include file="css_create.jsp"%>
     </style>
 </head>
 <body>
 <h1>Product Management</h1>
-<h1>
-    <a href="/products">List All Users</a>
 
-</h1>
 </center>
 <div align="center">
-    <h2><a href="/products" style="text-decoration: none; color: black;">Product Management</a></h2>
     <div class="message">
         <c:if test='${requestScope["success"] != null}'>
             <div id="div1" class="alert alert-success" role="alert">
@@ -98,28 +72,9 @@
 
         </div>
         <button class="btn btn-primary" type="submit">Create</button>
-
+        <a class="btn btn-warning" href="/products">List All Product</a>
     </form>
 </div>
-<script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-        'use strict';
-        window.addEventListener('load', function() {
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
-</script>
+<%@include file="script.jsp"%>
 </body>
 </html>

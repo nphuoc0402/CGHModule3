@@ -178,6 +178,10 @@ public class ProductControlServlet extends HttpServlet {
                 request.setAttribute("error", "Price required greater than 0 Or Cat_id is available");
                 showFormEdit(request, response);
             } else {
+                if(EditProduct == null){
+                    dis = request.getRequestDispatcher("error.jsp");
+                    dis.forward(request,response);
+                }else{
                 int idcat = categoryDAO.findId(str_cat_id);
                 int quantity = Integer.parseInt(str_quantity);
                 EditProduct.setId(id);
@@ -191,6 +195,7 @@ public class ProductControlServlet extends HttpServlet {
                 request.setAttribute("success", "Product was created");
                 request.setAttribute("error", null);
                 showFormEdit(request, response);
+                }
             }
         }
     }
@@ -201,6 +206,7 @@ public class ProductControlServlet extends HttpServlet {
         RequestDispatcher dis;
         if(product == null){
             dis = request.getRequestDispatcher("error.jsp");
+            dis.forward(request,response);
         }else{
             productDAO.isDeleteProduct(id);
             request.setAttribute("error",null);

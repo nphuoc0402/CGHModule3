@@ -1,15 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: DELL
-  Date: 8/6/2021
-  Time: 7:22 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Delete</title>
+    <%@include file="head.jsp"%>
 </head>
 <body>
 <h1>Delete Product</h1>
@@ -46,15 +40,11 @@
                 <td>${requestScope["product"].getDescription()}</td>
             </tr>
             <tr>
-<%--                <td>Category: </td>--%>
-<%--                <c:forEach items="categories" var="categories">--%>
-<%--                    <td>${categories.get(products.getCat_id() - 1).getName()}</td>--%>
-<%--                </c:forEach>--%>
 
             </tr>
             <tr>
-                <td><input type="submit" value="Delete customer"></td>
-                <td><a href="/products">Back to customer list</a></td>
+                <td><input class="btn btn-primary" type="submit" value="Delete Product"></td>
+                <td><a class="btn btn-warning" href="/products">List All Product</a></td>
             </tr>
         </table>
     </fieldset>
